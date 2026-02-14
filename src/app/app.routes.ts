@@ -8,6 +8,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: DeckListComponent, canActivate: [authGuard] },
   { path: 'deck/:id', component: DeckStatsComponent, canActivate: [authGuard] },
+  { path: 'deck/:id/stats', component: DeckStatsComponent, canActivate: [authGuard] },
   
   // Se o cara digitar qualquer loucura na URL, manda pro login
   { path: '**', redirectTo: 'login' } 
