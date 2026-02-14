@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DeckService } from '../../services/deck.service';
 import { DeckStats } from '../../models/deck';
 import { FormsModule } from '@angular/forms';
+import { ThemeService } from '../../services/theme.service';
 
 interface CartaVisual {
   qtd: string;
@@ -41,6 +42,7 @@ export class DeckStatsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private deckService: DeckService,
+    public themeService: ThemeService,
     private cdr: ChangeDetectorRef // Injeção do detector
   ) {}
 

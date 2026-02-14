@@ -1,115 +1,115 @@
-<div class="stats-container" *ngIf="stats">
-  <button routerLink="/" class="btn-back">← Voltar</button>
+<div class="stats-page-wrapper" [ngClass]="themeService.isTemaClaro() ? 'tema-claro' : 'tema-escuro'">
+  
+  <div class="stats-container" *ngIf="stats">
+    <button routerLink="/" class="btn-back">← Voltar</button>
 
-  <h2>{{ stats.deckName || 'Estatísticas' }}</h2>
+    <h2 class="stats-title">{{ stats.deckName || 'Estatísticas' }}</h2>
 
-<div class="matchups-container" style="margin-top: 30px; border-top: 1px solid #444; padding-top: 20px;">
-    <h3>Matchups (Confrontos)</h3>
-    
-    <div class="matchups-grid" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-      <div *ngFor="let match of stats.matchups" 
-           (click)="selecionarOponente(match.nomeArquetipo)"
-           [ngStyle]="{'background-color': oponenteSelecionado === match.nomeArquetipo ? '#28a745' : '#333', 'color': 'white', 'padding': '10px', 'border-radius': '8px', 'cursor': 'pointer', 'border': '1px solid #555'}">
-        <strong>{{ match.nomeArquetipo }}</strong>
-        <div style="font-size: 0.85em; margin-top: 5px;">
-          WR: {{ match.matchWinRate | number:'1.0-1' }}% ({{ match.matchWins }}V - {{ match.matchLosses }}D)
+    <div class="matchups-container">
+      <h3>Matchups (Confrontos)</h3>
+      
+      <div class="matchups-grid">
+        <div *ngFor="let match of stats.matchups" 
+             (click)="selecionarOponente(match.nomeArquetipo)"
+             class="match-card"
+             [ngClass]="{'active': oponenteSelecionado === match.nomeArquetipo}">
+          <strong>{{ match.nomeArquetipo }}</strong>
+          <div class="match-details">
+            WR: {{ match.matchWinRate | number:'1.0-1' }}% ({{ match.matchWins }}V - {{ match.matchLosses }}D)
+          </div>
         </div>
       </div>
+
+      <div class="novo-oponente-form">
+        <input type="text" [(ngModel)]="novoOponente" placeholder="Novo Deck Oponente (Ex: Kuldotha Red)" class="input-tema">
+        <button (click)="adicionarOponente()" class="btn-primary">
+          Selecionar Novo
+        </button>
+      </div>
     </div>
 
-    <div class="novo-oponente-form" style="display: flex; gap: 10px; margin-bottom: 30px;">
-      <input type="text" [(ngModel)]="novoOponente" placeholder="Novo Deck Oponente (Ex: Kuldotha Red)" 
-             style="padding: 8px; border-radius: 4px; border: 1px solid #555; background: #222; color: white; flex-grow: 1;">
-      <button (click)="adicionarOponente()" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
-        Selecionar Novo
+    <div class="actions" *ngIf="oponenteSelecionado">
+      <h3>Registrar Partida vs {{ oponenteSelecionado }}</h3>
+      
+      <div class="group-win">
+        <span class="label">Vitória</span>
+        <button (click)="registrarResultado(2, 0)" [disabled]="isSaving" class="btn-score win">2-0</button>
+        <button (click)="registrarResultado(2, 1)" [disabled]="isSaving" class="btn-score win">2-1</button>
+      </div>
+
+      <div class="group-loss">
+        <span class="label">Derrota</span>
+        <button (click)="registrarResultado(1, 2)" [disabled]="isSaving" class="btn-score loss">1-2</button>
+        <button (click)="registrarResultado(0, 2)" [disabled]="isSaving" class="btn-score loss">0-2</button>
+      </div>
+    </div>
+
+    <div class="stats-header">
+      <h3 class="destaque-cor">
+        {{ visualizandoGeral ? 'Estatísticas Gerais do Deck' : 'Estatísticas vs ' + oponenteSelecionado }}
+      </h3>
+      
+      <button *ngIf="oponenteSelecionado" (click)="alternarVisualizacaoStats()" class="btn-outline">
+        {{ visualizandoGeral ? 'Ver Estatísticas da Match' : 'Ver Estatísticas Totais do Deck' }}
       </button>
     </div>
-  </div>
 
-  <div class="actions" *ngIf="oponenteSelecionado" style="background: #2a2a2a; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107;">
-    <h3 style="margin-top: 0; color: #ffc107;">Registrar Partida vs {{ oponenteSelecionado }}</h3>
-    
-    <div class="group-win" style="margin-bottom: 10px;">
-      <span class="label">Vitória</span>
-      <button (click)="registrarResultado(2, 0)" [disabled]="isSaving" class="btn-score win">2-0</button>
-      <button (click)="registrarResultado(2, 1)" [disabled]="isSaving" class="btn-score win">2-1</button>
-    </div>
-
-    <div class="group-loss">
-      <span class="label">Derrota</span>
-      <button (click)="registrarResultado(1, 2)" [disabled]="isSaving" class="btn-score loss">1-2</button>
-      <button (click)="registrarResultado(0, 2)" [disabled]="isSaving" class="btn-score loss">0-2</button>
-    </div>
-  </div>
-
-  <div class="stats-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-    <h3 style="color: #ffc107; margin: 0;">
-      {{ visualizandoGeral ? 'Estatísticas Gerais do Deck' : 'Estatísticas vs ' + oponenteSelecionado }}
-    </h3>
-    
-    <button *ngIf="oponenteSelecionado" (click)="alternarVisualizacaoStats()" 
-            style="padding: 6px 15px; background: transparent; border: 2px solid #a855f7; color: #a855f7; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9em;">
-      {{ visualizandoGeral ? 'Ver Estatísticas da Match' : 'Ver Estatísticas Totais do Deck' }}
-    </button>
-  </div>
-
-  <div class="cards-grid">
-    <div class="stat-card highlight">
-      <h3>Match Win Rate</h3>
-      <p class="big-number">{{ statsParaExibir.matchWinRate | number:'1.1-1' }}%</p>
-      <div class="details">
-        <span class="win">{{ statsParaExibir.matchWins }} V</span> - 
-        <span class="loss">{{ statsParaExibir.matchLosses }} D</span>
+    <div class="cards-grid">
+      <div class="stat-card highlight">
+        <h3>Match Win Rate</h3>
+        <p class="big-number">{{ statsParaExibir.matchWinRate | number:'1.1-1' }}%</p>
+        <div class="details">
+          <span class="win">{{ statsParaExibir.matchWins }} V</span> - 
+          <span class="loss">{{ statsParaExibir.matchLosses }} D</span>
+        </div>
+        <p class="sub-label">Total Matches: {{ statsParaExibir.totalMatches }}</p>
       </div>
-      <p class="sub-label">Total Matches: {{ statsParaExibir.totalMatches }}</p>
-    </div>
 
-    <div class="stat-card">
-      <h3>Game Win Rate</h3>
-      <p class="big-number" style="color: #666;">{{ statsParaExibir.gameWinRate | number:'1.1-1' }}%</p>
-      <div class="details">
-        <span class="win">{{ statsParaExibir.gameWins }} V</span> - 
-        <span class="loss">{{ statsParaExibir.gameLosses }} D</span>
+      <div class="stat-card secondary">
+        <h3>Game Win Rate</h3>
+        <p class="big-number">{{ statsParaExibir.gameWinRate | number:'1.1-1' }}%</p>
+        <div class="details">
+          <span class="win">{{ statsParaExibir.gameWins }} V</span> - 
+          <span class="loss">{{ statsParaExibir.gameLosses }} D</span>
+        </div>
+        <p class="sub-label">Total Games: {{ statsParaExibir.totalGames }}</p>
       </div>
-      <p class="sub-label">Total Games: {{ statsParaExibir.totalGames }}</p>
+    </div>
+
+    <div class="toggle-container">
+      <button (click)="alternarDecklist()" class="btn-toggle">
+        {{ mostrarDecklist ? 'Ocultar Decklist' : 'Ver Decklist' }} 📋
+      </button>
+    </div>
+
+    <div class="deck-list-container" *ngIf="mostrarDecklist">
+      <div class="deck-column">
+        <h3>Main Deck ({{ totalMainDeck }})</h3>
+        <ul>
+          <li *ngFor="let carta of mainDeck" 
+              (mouseenter)="mostrarCarta(carta.nome)" 
+              (mouseleave)="esconderCarta()">
+            <span class="qtd">{{ carta.qtd }}</span>
+            <span class="nome">{{ carta.nome }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="deck-column side" *ngIf="sideboard.length > 0">
+        <h3>Sideboard ({{ totalSideboard }})</h3>
+        <ul>
+          <li *ngFor="let carta of sideboard"
+              (mouseenter)="mostrarCarta(carta.nome)" 
+              (mouseleave)="esconderCarta()">
+            <span class="qtd">{{ carta.qtd }}</span>
+            <span class="nome">{{ carta.nome }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <div class="toggle-container">
-    <button (click)="alternarDecklist()" class="btn-toggle">
-      {{ mostrarDecklist ? 'Ocultar Decklist' : 'Ver Decklist' }} 📋
-    </button>
+  <div class="card-preview" *ngIf="imagemDestaque">
+    <img [src]="imagemDestaque" alt="Imagem da carta" class="imagem-carta-flutuante">
   </div>
-
-  <div class="deck-list-container" *ngIf="mostrarDecklist">
-    <div class="deck-column">
-      <h3>Main Deck ({{ totalMainDeck }})</h3>
-      <ul>
-        <li *ngFor="let carta of mainDeck" 
-            (mouseenter)="mostrarCarta(carta.nome)" 
-            (mouseleave)="esconderCarta()">
-          <span class="qtd">{{ carta.qtd }}</span>
-          <span class="nome">{{ carta.nome }}</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="deck-column side" *ngIf="sideboard.length > 0">
-      <h3>Sideboard ({{ totalSideboard }})</h3>
-      <ul>
-        <li *ngFor="let carta of sideboard"
-            (mouseenter)="mostrarCarta(carta.nome)" 
-            (mouseleave)="esconderCarta()">
-          <span class="qtd">{{ carta.qtd }}</span>
-          <span class="nome">{{ carta.nome }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-<div class="card-preview" *ngIf="imagemDestaque">
-  <img 
-    [src]="imagemDestaque" 
-    alt="Imagem da carta"
-    class="imagem-carta-flutuante">
 </div>
