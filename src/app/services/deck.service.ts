@@ -28,7 +28,7 @@ export class DeckService {
   }
 
   getEstatisticas(id: number): Observable<DeckStats> {
-    return this.http.get<DeckStats>(`${this.apiUrl}/${id}/stats`, { headers: this.getHeaders() });
+  return this.http.get<DeckStats>(`${this.apiUrl}/${id}/stats`, { headers: this.getHeaders() });
   }
 
   listar(): Observable<Deck[]> {
