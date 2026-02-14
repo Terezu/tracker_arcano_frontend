@@ -1,34 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  // A URL liberada no nosso Java
-  private apiUrl = 'https://tracker-arcano-backend.onrender.com/login';
+export class DeckService {
+  // 1. Troque o localhost por esta URL:
+  private apiUrl = 'https://tracker-arcano-backend.onrender.com/decks';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
-  login(dados: any) {
-    return this.http.post<any>(this.apiUrl, dados).pipe(
-      tap(resposta => {
-        // Quando o Java devolve o token, nós guardamos no "bolso" do navegador
-        sessionStorage.setItem('token_lontras', resposta.token);
-      })
-    );
-  }
+  salvarDeck(deck: any) {
+    // 2. Pegue o "crachá" (token) que o AuthService guardou
+    const token = sessionStorage.getItem('token_lontras');
 
-  logout() {
-    // Joga o crachá fora e manda o usuário de volta pra tela de login
-    sessionStorage.removeItem('token_lontras');
-    this.router.navigate(['/login']);
-  }
+    // 3. Monte o cabeçalho de autorização
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-  // Verifica se o usuário tem um crachá guardado
-  isAutenticado(): boolean {
-    return !!sessionStorage.getItem('token_lontras');
+    // 4. Envie o deck com o cabeçalho incluído
+    return this.http.post(this.apiUrl, deck, { headers });
   }
 }
