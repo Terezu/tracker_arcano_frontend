@@ -6,6 +6,7 @@ import { Deck } from '../../models/deck';
 import { AuthService } from '../../services/auth.service';
 import { DeckFormComponent } from '../deck-form/deck-form'; // Importa o componente do formulário
 import { ThemeService } from '../../services/theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-deck-list',
@@ -23,12 +24,21 @@ export class DeckListComponent implements OnInit {
   constructor(
     private deckService: DeckService, 
     private authService: AuthService,
+    private router: Router,
     public themeService: ThemeService) {}
 
   ngOnInit(): void {
     this.carregarDecks();
   }
 
+  irParaEstatisticas(id: number | undefined) {
+  if (id) {
+    this.router.navigate(['/deck', id, 'stats']);
+  } else {
+    console.error('Erro: ID do deck está indefinido!');
+    }
+  }
+  
   carregarDecks() {
     this.deckService.listar().subscribe({
       next: (dados: any) => {
