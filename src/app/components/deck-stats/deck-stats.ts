@@ -57,7 +57,7 @@ export class DeckStatsComponent implements OnInit {
   }
 
   mostrarCarta(nome: string) {
-    this.imagemDestaque = `http://localhost:8080/api/cartas/imagem/${encodeURIComponent(nome)}`;
+    this.imagemDestaque = `https://tracker-arcano-backend.onrender.com/api/cartas/imagem/${encodeURIComponent(nome)}`;
     this.cdr.detectChanges();
   }
 

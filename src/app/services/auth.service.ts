@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   // A URL liberada no nosso Java
-  private apiUrl = 'https://tracker-arcano-backend.onrender.com';
+  private apiUrl = 'https://tracker-arcano-backend.onrender.com/login';
 
   constructor(private http: HttpClient, private router: Router) {}
 
