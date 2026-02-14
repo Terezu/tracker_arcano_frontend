@@ -22,8 +22,27 @@ export class DeckService {
     );
   }
 
+  registrarPartida(deckId: number, wins: number, losses: number, arquetipoAdversario: string) {
+    const payload = { qtdVitorias: wins, qtdDerrotas: losses, arquetipoAdversario: arquetipoAdversario };
+    return this.http.post(`${this.apiUrl}/${deckId}/partidas`, payload, { headers: this.getHeaders() });
+  }
+
+  getEstatisticas(id: number): Observable<DeckStats> {
+    return this.http.get<DeckStats>(`${this.apiUrl}/${id}/stats`, { headers: this.getHeaders() });
+  }
+
   listar(): Observable<Deck[]> {
     return this.http.get<Deck[]>(this.apiUrl, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  atualizarDeck(id: number, deckAtualizado: any) {
+    return this.http.put(`${this.apiUrl}/${id}`, deckAtualizado, { headers: this.getHeaders() });
+  }
+
+  excluir(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
   }

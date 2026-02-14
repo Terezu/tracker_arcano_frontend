@@ -31,11 +31,11 @@ export class DeckListComponent implements OnInit {
 
   carregarDecks() {
     this.deckService.listar().subscribe({
-      next: (dados) => {
+      next: (dados: any) => {
         console.log('Decks recebidos do Java:', dados);
         this.decks = dados;
       },
-      error: (erro) => {
+      error: (erro: any) => {
         console.error('Erro ao buscar decks', erro);
       }
     });
