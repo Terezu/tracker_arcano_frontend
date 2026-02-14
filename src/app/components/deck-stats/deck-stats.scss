@@ -1,0 +1,282 @@
+// =========================================
+// 1. LAYOUT GERAL E CARDS DE ESTATÍSTICAS
+// =========================================
+
+.stats-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  text-align: center;
+  padding: 0 1rem; // Margem de segurança para mobile
+}
+
+.cards-grid {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap; // Permite quebrar linha em telas pequenas
+}
+
+.stat-card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  width: 220px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
+  h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  // Estilo do Card Azul (Match Win Rate)
+  &.highlight {
+    background: #f0f9ff;
+    border-color: #b3e5fc;
+
+    h3 { color: #0277bd; }
+    .big-number { color: #0288d1; }
+  }
+}
+
+.big-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #007bff;
+  margin: 10px 0;
+}
+
+.sub-label {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 5px;
+}
+
+.details {
+  font-size: 1.1rem;
+  font-weight: bold;
+  
+  .win { color: #28a745; }
+  .loss { color: #dc3545; }
+}
+
+
+// =========================================
+// 2. BOTÕES E AÇÕES
+// =========================================
+
+.actions {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.group-win, .group-loss {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.label {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.btn-score {
+  width: 80px;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s;
+
+  &.win { background-color: #28a745; }
+  &.win:hover { background-color: #218838; }
+
+  &.loss { background-color: #dc3545; }
+  &.loss:hover { background-color: #c82333; }
+
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+.btn-back {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 5px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+  transition: all 0.2s;
+  
+  &:hover { background-color: #f0f0f0; }
+}
+
+// Botão de Toggle da Lista (Pílula Cinza)
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.btn-toggle {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+  &:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+
+// =========================================
+// 3. LISTA DE DECKS (MAIN E SIDE)
+// =========================================
+
+.deck-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  text-align: left;
+  margin-top: 1rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.deck-column {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  min-width: 250px;
+  flex: 1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+  h3 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+    color: #444;
+  }
+
+  &.side h3 {
+    border-bottom-color: #ffd700; // Dourado
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  // AQUI ESTÁ A MÁGICA DA LISTA
+  li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    
+    // Flexbox para alinhar QTD e NOME
+    display: flex;
+    align-items: center;
+    gap: 12px; // Espaço físico entre os itens
+    
+    cursor: help;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &:hover {
+      background-color: #f8f9fa;
+      transform: translateX(5px); // Animação de deslize
+      border-left: 4px solid #007bff; // Barrinha azul
+      
+      .qtd { background-color: #dfe6ed; } // Realça a bolinha também
+    }
+
+    &:last-child { border-bottom: none; }
+  }
+
+  .qtd {
+    font-weight: bold;
+    color: #444;
+    background: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 12px;
+    min-width: 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+  }
+
+  .nome {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+  }
+}
+
+
+// =========================================
+// 4. PREVIEW DA CARTA (IMAGEM FLUTUANTE)
+// =========================================
+
+.card-preview {
+  position: fixed;
+  top: 15%;
+  right: 5%;
+  z-index: 99999 !important;
+  pointer-events: none;
+  
+  // Animação de entrada
+  animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  img {
+    display: block;
+    width: 280px;
+    height: auto;
+    border-radius: 14px; // Bordas redondas do Magic
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); // Sombra bonita
+    border: 1px solid #000;
+  }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.8) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+// Esconde o preview em celulares
+@media (max-width: 900px) {
+  .card-preview {
+    display: none;
+  }
+}

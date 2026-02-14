@@ -1,0 +1,94 @@
+.list-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* =========================================
+   ESTILOS DA TABELA (TEMA DINÂMICO)
+   ========================================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--bg-painel); /* Fundo da tabela inteiro dinâmico */
+  color: var(--texto-principal);      /* Texto dinâmico */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  /* O cabeçalho fica com uma cor sutilmente diferente do painel para destacar */
+  background-color: var(--bg-fundo-tela); 
+  color: var(--texto-principal);
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid var(--borda-cor); /* Linha divisória dinâmica */
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--borda-cor); /* Linha divisória dinâmica */
+  color: var(--texto-principal);
+}
+
+/* Efeito de passar o mouse por cima da linha (opcional, mas fica ótimo!) */
+tbody tr:hover {
+  background-color: var(--bg-fundo-tela);
+}
+
+.btn-stats {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #218838;
+  }
+}
+
+/* Posiciona o container de forma fixa na tela, sobrepondo outros elementos */
+.container-imagem-flutuante {
+  position: fixed;
+  top: 20px; /* Distância do topo da tela */
+  right: 20px; /* Distância da direita da tela */
+  z-index: 1000; /* Garante que fique por cima de tudo */
+  pointer-events: none; /* Evita que a imagem atrapalhe os cliques do mouse */
+  
+  /* Um efeitinho visual de sombra para destacar a carta */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 10px; /* Deixa as bordinhas arredondadas (opcional) */
+  background-color: transparent;
+}
+
+/* Ajusta o tamanho da carta */
+.imagem-carta {
+  width: 250px; /* Largura padrão de uma carta de MTG na tela */
+  height: auto;
+  border-radius: 10px; /* Segue o arredondamento */
+  display: block;
+}
+
+/* Opcional: muda o cursor quando passa o mouse na lista de cartas */
+.lista-cartas li {
+  cursor: pointer;
+}
+
+.btn-delete {
+  background-color: #dc3545; /* Um vermelho padrão e elegante */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s; /* Deixa a mudança de cor suave no hover */
+
+  /* Efeito para quando o mouse passar por cima (fica um vermelho mais escuro) */
+  &:hover {
+    background-color: #c82333;
+  }
+}

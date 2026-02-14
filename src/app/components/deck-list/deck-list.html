@@ -1,0 +1,60 @@
+<div style="display: flex; justify-content: flex-start; align-items: center; gap: 20px; margin-bottom: 30px;">
+  <button (click)="sairDaConta()" 
+          style="padding: 8px 18px; background-color: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+    Sair da Conta
+  </button>
+
+  <button (click)="themeService.alternarTema()" 
+          style="padding: 8px 18px; background-color: transparent; color: var(--texto-principal); border: 2px solid var(--borda-cor); border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1em;">
+    {{ themeService.isTemaClaro() ? '🌙 Modo Escuro' : '☀️ Modo Claro' }}
+  </button>
+</div>
+
+<app-deck-form 
+  [deckParaEditar]="deckSelecionadoParaEdicao" 
+  (deckCriado)="carregarDecks(); cancelarEdicao()"
+  (edicaoCancelada)="cancelarEdicao()">
+</app-deck-form>
+
+<hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+
+<div class="deck-list-container">
+  <div class="list-container">
+    <h3 style="margin-bottom: 20px;">Decks Salvos</h3>
+
+    <table *ngIf="decks.length > 0; else noDecks">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Formato</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let deck of decks">
+          <td>{{ deck.id }}</td>
+          <td>{{ deck.name }}</td>
+          <td>{{ deck.format || 'Pauper' }}</td>
+          <td>
+            <button class="btn-stats" [routerLink]="['/deck', deck.id, 'stats']">
+              Ver Estatísticas
+            </button>  
+            
+            <button class="btn-edit" (click)="editarDeck(deck)" style="margin: 0 5px; background-color: #ffc107; color: #000; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+              Editar
+            </button>
+            
+            <button class="btn-delete" (click)="excluirDeck(deck.id!, deck.name)">
+              Excluir
+            </button>      
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noDecks>
+      <p>Nenhum deck encontrado. Cadastre o primeiro acima!</p>
+    </ng-template>
+  </div>
+</div>

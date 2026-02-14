@@ -1,0 +1,30 @@
+/* =========================================
+   DICIONÁRIO DE CORES (VARIÁVEIS GLOBAIS)
+   ========================================= */
+
+/* 1. MODO ESCURO (Padrão) */
+:root {
+  --bg-fundo-tela: #1a1a1a;
+  --bg-painel: #2a2a2a;
+  --texto-principal: #ffffff;
+  --texto-secundario: #cccccc;
+  --borda-cor: #555555;
+}
+
+/* 2. MODO CLARO (Ativado quando o <body> ganha a classe 'light-theme') */
+body.light-theme {
+  --bg-fundo-tela: #ffffff; /* Agora o fundo geral do navegador é Branco Puro */
+  --bg-painel: #f0f2f5;     /* Agora a caixa do formulário e as tabelas ficam Cinza Claro */
+  --texto-principal: #212529;
+  --texto-secundario: #6c757d;
+  --borda-cor: #dee2e6;
+}
+
+/* 3. APLICANDO AS CORES NO CORPO DA PÁGINA */
+body {
+  background-color: var(--bg-fundo-tela);
+  color: var(--texto-principal);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Efeito suave ao trocar de tema */
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
